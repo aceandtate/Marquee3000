@@ -5,7 +5,7 @@
  * MIT License
  */
 
-;(function(root, factory) {
+; (function (root, factory) {
   if (typeof define === 'function' && define.amd) {
     define([], factory);
   } else if (typeof exports === 'object') {
@@ -13,8 +13,10 @@
   } else {
     root.Marquee3k = factory();
   }
-}(this, function() {
+}(this, function () {
   'use strict';
+
+  let animationId;
 
   class Marquee3k {
     constructor(element, options) {
@@ -121,6 +123,7 @@
     }
 
     static init(options = { selector: 'marquee3k' }) {
+      window.cancelAnimationFrame(animationId);
       window.MARQUEES = [];
       const marquees = Array.from(document.querySelectorAll(`.${options.selector}`));
       let previousWidth = window.innerWidth;
@@ -138,7 +141,7 @@
         for (let i = 0; i < MARQUEES.length; i++) {
           MARQUEES[i].animate();
         }
-        window.requestAnimationFrame(animate);
+        animationId = window.requestAnimationFrame(animate);
       }
 
       window.addEventListener('resize', () => {
